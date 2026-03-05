@@ -17,16 +17,33 @@
   </header>
 
   <main class="perfil-page">
+    <section class="perfil-basic-card">
+      <h2>Informacion basica</h2>
+      <div class="perfil-basic-list">
+        <div class="perfil-basic-item">
+          <p class="label">Nombre</p>
+          <p id="basicNameTxt" class="value">-</p>
+        </div>
+        <div class="perfil-basic-item">
+          <p class="label">Correo electronico</p>
+          <p id="basicEmailTxt" class="value">-</p>
+        </div>
+        <div class="perfil-basic-item">
+          <p class="label">Telefono</p>
+          <p id="basicPhoneTxt" class="value">-</p>
+        </div>
+        <div class="perfil-basic-item">
+          <p class="label">Direccion de casa</p>
+          <p id="basicAddressTxt" class="value">-</p>
+        </div>
+      </div>
+      <button id="logoutProfileBtn" type="button" class="btn-logout-profile">Cerrar sesion</button>
+    </section>
+
     <details class="perfil-dropdown" open>
       <summary>Cambio de informacion</summary>
       <section class="perfil-card">
         <p id="profileStatus" class="status status--info" aria-live="polite">Cargando informacion...</p>
-
-        <div class="perfil-grid">
-          <div class="perfil-readonly">
-            <p><strong>Email:</strong> <span id="emailTxt">-</span></p>
-          </div>
-        </div>
 
         <form id="profileForm" class="form-grid">
           <label for="nameInput">Nombre</label>
@@ -83,21 +100,16 @@
     </details>
   </main>
 
-   <footer class="contacto-footer">
-
+  <footer class="contacto-footer">
     <div class="footer-content">
-
-      <img src="../Imagenes/Logo.jpg" class="footer-logo" />
-
+      <img src="../Imagenes/Logo.jpg" class="footer-logo" alt="Logo" />
       <div class="footer-info">
-        <p><strong>Teléfono:</strong> +52 618 526 2120</p>
+        <p><strong>Telefono:</strong> +52 618 526 2120</p>
         <p><strong>Email:</strong> ciudadlimpiadgo@gmail.com</p>
       </div>
-
     </div>
-
   </footer>
-  
+
   <script type="module" src="Usuarios-perfil.js"></script>
 </body>
 </html>

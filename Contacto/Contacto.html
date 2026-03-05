@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contacto - Ciudad Limpia</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../Home/inicio.css" />
+  <link rel="stylesheet" href="Contacto.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="nav__left">
+      <img src="../Imagenes/Logo.jpg" class="nav__logo" alt="Logo" />
+      <span class="nav__brand">Ciudad Limpia</span>
+    </div>
+    <nav class="nav__links"></nav>
+  </header>
+
+  <main class="contacto-wrapper">
+    <div class="contacto-card">
+      <h1>Contactanos</h1>
+      <p class="sub">Envianos dudas, avisos, quejas o sugerencias.</p>
+
+      <form id="contactForm" class="contacto-form">
+        <label for="tipoMensaje">Tipo de mensaje</label>
+        <select id="tipoMensaje" required>
+          <option value="">Selecciona...</option>
+          <option value="Aviso">Aviso</option>
+          <option value="Queja">Queja</option>
+          <option value="Sugerencia">Sugerencia</option>
+          <option value="Soporte">Soporte</option>
+          <option value="Otro">Otro</option>
+        </select>
+
+        <input
+          type="text"
+          id="otroTipo"
+          placeholder="Especifica el tipo de mensaje"
+          hidden
+        />
+
+        <label for="email">Email</label>
+        <input type="email" id="email" required />
+
+        <label for="asunto">Asunto</label>
+        <input type="text" id="asunto" required />
+
+        <label for="mensaje">Mensaje</label>
+        <textarea id="mensaje" rows="5" required></textarea>
+
+        <button type="submit" id="btnEnviarContacto">Enviar mensaje</button>
+        <p id="status" class="status" hidden></p>
+      </form>
+    </div>
+  </main>
+
+  <footer class="contacto-footer">
+    <div class="footer-content">
+      <img src="../Imagenes/Logo.jpg" class="footer-logo" alt="Logo" />
+      <div class="footer-info">
+        <p><strong>Telefono:</strong> +52 618 526 2120</p>
+        <p><strong>Email:</strong> ciudadlimpiadgo@gmail.com</p>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="Contacto.js"></script>
+</body>
+</html>

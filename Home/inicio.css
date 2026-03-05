@@ -67,6 +67,33 @@
   background: #4caf50;
 }
 
+.nav__profile-link {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid transparent;
+  text-decoration: none;
+}
+
+.nav__profile-link:hover {
+  background: #f0f4f1;
+}
+
+.nav__profile-link.active {
+  border-color: #4caf50;
+  background: #e9f5ea;
+}
+
+.nav__profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
 .inicio-page {
   font-family: "Poppins", sans-serif;
   background: #f4f7f6;
@@ -112,6 +139,14 @@
   color: #4caf50;
   border-bottom: 2px solid #4caf50;
   border-radius: 0;
+}
+
+.inicio-page .nav__profile-link {
+  border-color: #ffffff;
+}
+
+.inicio-page .nav.nav-active .nav__profile-link {
+  border-color: transparent;
 }
 
 .inicio-page .nav__btn {

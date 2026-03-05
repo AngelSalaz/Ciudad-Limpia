@@ -1,0 +1,81 @@
+.contacto-wrapper {
+  min-height: calc(100vh - 175px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 34px 20px;
+}
+
+.contacto-card {
+  background: #ffffff;
+  width: min(560px, 100%);
+  padding: 34px;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+  border-top: 8px solid #2d5a27;
+}
+
+.contacto-card h1 {
+  color: #2d5a27;
+  margin: 0 0 6px;
+  text-align: center;
+}
+
+.sub {
+  color: #666;
+  margin: 0 0 22px;
+  text-align: center;
+}
+
+.contacto-form {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.contacto-form input,
+.contacto-form textarea,
+.contacto-form select {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-family: inherit;
+}
+
+.contacto-form input:focus,
+.contacto-form textarea:focus,
+.contacto-form select:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
+}
+
+#btnEnviarContacto {
+  margin-top: 10px;
+  background: #2d5a27;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#btnEnviarContacto:hover {
+  background: #4caf50;
+}
+
+.status {
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+@media (max-width: 760px) {
+  .contacto-wrapper {
+    padding: 18px 14px 30px;
+  }
+
+  .contacto-card {
+    padding: 22px 16px;
+  }
+}

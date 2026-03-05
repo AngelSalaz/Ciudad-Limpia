@@ -24,6 +24,43 @@ body {
   gap: 14px;
 }
 
+.perfil-basic-card {
+  background: #fff;
+  border-radius: 16px;
+  border-top: 8px solid #2d5a27;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  padding: 18px;
+}
+
+.perfil-basic-card h2 {
+  margin: 0 0 12px;
+  color: #2d5a27;
+}
+
+.perfil-basic-list {
+  display: grid;
+  gap: 8px;
+}
+
+.perfil-basic-item {
+  border: 1px solid #e6e9ef;
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: #fdfefe;
+}
+
+.perfil-basic-item .label {
+  margin: 0;
+  font-weight: 700;
+  color: #20313f;
+}
+
+.perfil-basic-item .value {
+  margin: 4px 0 0;
+  color: #1f2937;
+  overflow-wrap: anywhere;
+}
+
 .perfil-dropdown {
   border-radius: 16px;
   overflow: hidden;
@@ -67,8 +104,17 @@ body {
   font-size: 14px;
 }
 
-.perfil-readonly p {
-  margin: 0 0 10px;
+.btn-logout-profile {
+  margin-top: 14px;
+  background: #143513;
+  color: #fff;
+  border: 1px solid #2e6830;
+  width: auto;
+  display: inline-flex;
+}
+
+.btn-logout-profile:hover {
+  background: #225822;
 }
 
 .form-grid {

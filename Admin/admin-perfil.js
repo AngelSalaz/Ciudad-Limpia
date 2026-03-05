@@ -8,6 +8,7 @@ const nombreInput = document.getElementById("nombreInput");
 const guardarBtn = document.getElementById("guardarNombre");
 const resetBtn = document.getElementById("resetPassword");
 const statusMessage = document.getElementById("statusMessage");
+const logoutProfileBtn = document.getElementById("logoutProfileBtn");
 
 let activeUser = null;
 
@@ -45,6 +46,11 @@ document.addEventListener("click", async (event) => {
   const buttonId = event.target?.id;
   if (buttonId !== "logout" && buttonId !== "btnLogout") return;
 
+  await logoutUser();
+  window.location.href = "../Login/login.html";
+});
+
+logoutProfileBtn?.addEventListener("click", async () => {
   await logoutUser();
   window.location.href = "../Login/login.html";
 });

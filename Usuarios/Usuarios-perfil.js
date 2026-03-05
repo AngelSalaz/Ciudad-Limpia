@@ -6,9 +6,13 @@ const profileForm = document.getElementById("profileForm");
 const nameInput = document.getElementById("nameInput");
 const phoneInput = document.getElementById("phoneInput");
 const addressInput = document.getElementById("addressInput");
-const emailTxt = document.getElementById("emailTxt");
+const basicNameTxt = document.getElementById("basicNameTxt");
+const basicEmailTxt = document.getElementById("basicEmailTxt");
+const basicPhoneTxt = document.getElementById("basicPhoneTxt");
+const basicAddressTxt = document.getElementById("basicAddressTxt");
 const profileStatus = document.getElementById("profileStatus");
 const saveProfileBtn = document.getElementById("saveProfileBtn");
+const logoutProfileBtn = document.getElementById("logoutProfileBtn");
 
 const reportsStatus = document.getElementById("reportsStatus");
 const reportsTableBody = document.getElementById("reportsTableBody");
@@ -73,6 +77,11 @@ document.addEventListener("click", async (event) => {
   window.location.href = "../Login/login.html";
 });
 
+logoutProfileBtn?.addEventListener("click", async () => {
+  await logoutUser();
+  window.location.href = "../Login/login.html";
+});
+
 profileForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (!currentUser) return;
@@ -96,6 +105,7 @@ profileForm.addEventListener("submit", async (event) => {
     }, currentUser);
 
     currentProfile = { ...(currentProfile || {}), name, phone, address };
+    refreshBasicInfo();
     setStatus(profileStatus, "Informacion actualizada correctamente.", "success");
   } catch (error) {
     console.error("Error actualizando perfil:", error);
@@ -207,12 +217,19 @@ favoritesList.addEventListener("click", async (event) => {
 });
 
 function hydrateProfile() {
-  emailTxt.textContent = currentUser?.email || "-";
   nameInput.value = currentProfile?.name || "";
   phoneInput.value = currentProfile?.phone || "";
   addressInput.value = currentProfile?.address || "";
+  refreshBasicInfo();
 
   setStatus(profileStatus, "Puedes actualizar tu informacion cuando quieras.", "info");
+}
+
+function refreshBasicInfo() {
+  basicNameTxt.textContent = currentProfile?.name || "Sin establecer";
+  basicEmailTxt.textContent = currentUser?.email || "-";
+  basicPhoneTxt.textContent = currentProfile?.phone || "Sin establecer";
+  basicAddressTxt.textContent = currentProfile?.address || "Sin establecer";
 }
 
 async function loadReports() {
