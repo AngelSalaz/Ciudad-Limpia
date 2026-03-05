@@ -1,27 +1,39 @@
 import { firebaseConfig } from "../firebase-config.js";
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+// 1. Importamos Firestore
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+// Inicialización de la App
 const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
-const auth = getAuth(app);
 
+// 2. Inicializamos los servicios
+const auth = getAuth(app);
+const db = getFirestore(app); // Instancia de Firestore para reportes y mensajes
+
+// Exportaciones base
+export { auth, db, firebaseConfig };
+
+/**
+ * Normaliza los roles para el sistema de navegación
+ */
 function normalizeRole(role) {
   const value = (role || "").toString().trim().toLowerCase();
   return value === "admin" || value === "administrador" ? "admin" : "user";
 }
 
-export { auth, firebaseConfig };
-
+/**
+ * Añade el token de autenticación a una URL (útil para Realtime Database si aún usas partes de ella)
+ */
 async function addAuthToUrl(url, user = auth.currentUser) {
   if (!user) return url;
 
   try {
-    // Force refresh to avoid stale/revoked tokens causing silent permission errors.
     const token = await user.getIdToken(true);
     const separator = url.includes("?") ? "&" : "?";
     return `${url}${separator}auth=${encodeURIComponent(token)}`;
   } catch (error) {
-    console.error("No se pudo obtener token de autenticacion:", error);
+    console.error("No se pudo obtener token de autenticación:", error);
     return url;
   }
 }
@@ -31,6 +43,9 @@ export async function fetchWithAuth(url, options = {}, user = auth.currentUser) 
   return fetch(authedUrl, options);
 }
 
+/**
+ * Obtiene el perfil del usuario desde Realtime Database (si ahí guardas los roles)
+ */
 export async function getUserProfile(uid, user = auth.currentUser) {
   if (!uid) return null;
 
@@ -48,6 +63,9 @@ export async function getUserProfile(uid, user = auth.currentUser) {
   }
 }
 
+/**
+ * Obtiene el contexto completo del usuario (Perfil + Rol)
+ */
 export async function getUserContext(user) {
   if (!user) {
     return { profile: null, role: "user" };
@@ -59,11 +77,23 @@ export async function getUserContext(user) {
   return { profile, role };
 }
 
+/**
+ * Define la ruta de aterrizaje según el rol detectado
+ */
 export function getLandingPathByRole(role, base = "..") {
   const root = base.replace(/\/$/, "");
   return normalizeRole(role) === "admin" ? `${root}/Admin/admin.html` : `${root}/Home/inicio.html`;
 }
 
+/**
+ * Cierra la sesión del usuario
+ */
 export async function logoutUser() {
-  await signOut(auth);
+  try {
+    await signOut(auth);
+    // Redirigir opcionalmente después del logout
+    window.location.href = "../Login/login.html";
+  } catch (error) {
+    console.error("Error al cerrar sesión:", error);
+  }
 }
