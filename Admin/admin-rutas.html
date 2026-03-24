@@ -39,19 +39,50 @@
         <h3>Nueva ruta</h3>
         <form id="rutaForm" class="ruta-form">
           <input type="text" id="nombreRuta" placeholder="Nombre de la ruta" required>
-          <input type="text" id="zona" placeholder="Zona o colonia" required>
+          <input type="hidden" id="zona" required>
+
+          <input
+            type="text"
+            id="inicioCp"
+            placeholder="CP inicio (5 digitos)"
+            inputmode="numeric"
+            pattern="[0-9]{5}"
+            maxlength="5"
+            autocomplete="postal-code"
+            title="Ingresa 5 digitos"
+            required
+          >
+          <select id="inicioColoniaSelect" required disabled>
+            <option value="">Colonia inicio</option>
+          </select>
           <div class="coord-row">
             <input type="text" id="inicioDireccion" placeholder="Direccion inicio">
             <button type="button" id="btnGeoInicio" class="btn-geo">Buscar coordenadas</button>
           </div>
           <input type="number" id="inicioLat" placeholder="Latitud inicio" step="any" min="-90" max="90">
           <input type="number" id="inicioLng" placeholder="Longitud inicio" step="any" min="-180" max="180">
+
+          <input
+            type="text"
+            id="finCp"
+            placeholder="CP fin (5 digitos)"
+            inputmode="numeric"
+            pattern="[0-9]{5}"
+            maxlength="5"
+            autocomplete="postal-code"
+            title="Ingresa 5 digitos"
+            required
+          >
+          <select id="finColoniaSelect" required disabled>
+            <option value="">Colonia fin</option>
+          </select>
           <div class="coord-row">
             <input type="text" id="finDireccion" placeholder="Direccion fin">
             <button type="button" id="btnGeoFin" class="btn-geo">Buscar coordenadas</button>
           </div>
           <input type="number" id="finLat" placeholder="Latitud fin" step="any" min="-90" max="90">
           <input type="number" id="finLng" placeholder="Longitud fin" step="any" min="-180" max="180">
+
           <input type="time" id="hora" required>
           <select id="dia" required>
             <option value="">Seleccionar dia</option>
@@ -65,6 +96,7 @@
           </select>
           <button type="submit" class="btn-primary">Guardar ruta</button>
         </form>
+        <p id="cpStatus" class="cp-status" aria-live="polite"></p>
         <p id="geoStatus" class="geo-status" aria-live="polite"></p>
       </section>
 
@@ -105,8 +137,38 @@
       <input type="hidden" id="editRutaId">
       <label>Nombre</label>
       <input type="text" id="editNombreRuta">
-      <label>Zona</label>
-      <input type="text" id="editZona">
+      <label>CP inicio</label>
+      <input
+        type="text"
+        id="editInicioCp"
+        placeholder="CP inicio (5 digitos)"
+        inputmode="numeric"
+        pattern="[0-9]{5}"
+        maxlength="5"
+        autocomplete="postal-code"
+        title="Ingresa 5 digitos"
+      >
+      <label>Colonia inicio</label>
+      <select id="editInicioColoniaSelect" disabled>
+        <option value="">Seleccionar colonia</option>
+      </select>
+      <input type="hidden" id="editZona">
+
+      <label>CP fin</label>
+      <input
+        type="text"
+        id="editFinCp"
+        placeholder="CP fin (5 digitos)"
+        inputmode="numeric"
+        pattern="[0-9]{5}"
+        maxlength="5"
+        autocomplete="postal-code"
+        title="Ingresa 5 digitos"
+      >
+      <label>Colonia fin</label>
+      <select id="editFinColoniaSelect" disabled>
+        <option value="">Seleccionar colonia</option>
+      </select>
       <label>Direccion inicio</label>
       <div class="coord-row modal-row">
         <input type="text" id="editInicioDireccion" placeholder="Direccion inicio">
@@ -144,6 +206,6 @@
     </div>
   </div>
 
-  <script type="module" src="admin-rutas.js"></script>
+  <script type="module" src="admin-rutas.js?v=20260323-3"></script>
 </body>
 </html>

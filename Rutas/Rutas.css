@@ -14,13 +14,13 @@ body {
   background: var(--bg);
 }
 
-.container {
+.rutas-page {
   max-width: 1140px;
   margin: 0 auto;
   padding: 24px 16px 40px;
 }
 
-.container h1 {
+.rutas-page h1 {
   margin: 0 0 18px;
   color: var(--primary-green);
   font-size: clamp(1.8rem, 3vw, 2.3rem);
@@ -61,19 +61,36 @@ body {
   color: #1f5b24;
 }
 
-#map {
+.rutas-toolbar {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.rutas-grid {
+  display: grid;
+  grid-template-columns: 1.7fr 0.9fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.rutas-map {
+  width: 100%;
+  min-height: 500px;
   height: 500px;
   border-radius: 16px;
-  margin-bottom: 18px;
   box-shadow: 0 12px 26px rgba(0, 0, 0, 0.08);
   border: 2px solid #dce5db;
 }
 
-#resultado {
+.rutas-results {
   background: var(--surface);
   padding: 14px;
   border-radius: 16px;
   box-shadow: 0 12px 26px rgba(0, 0, 0, 0.08);
+  max-height: 500px;
+  overflow: auto;
 }
 
 .ruta-card {
@@ -104,4 +121,19 @@ body {
 #resultado p {
   margin: 0;
   color: var(--muted);
+}
+
+@media (max-width: 900px) {
+  .rutas-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rutas-results {
+    max-height: none;
+  }
+
+  .rutas-map {
+    height: 420px;
+    min-height: 420px;
+  }
 }

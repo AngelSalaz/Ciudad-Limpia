@@ -40,12 +40,28 @@ document.addEventListener("click", async (event) => {
 });
 
 const DURANGO = [24.0277, -104.6532];
-const map = L.map("map").setView(DURANGO, 13);
+// Bounding box aproximado para limitar el mapa al municipio de Durango, Durango, Mexico.
+// (lat: 23.40 - 24.90, lng: -105.40 - -103.90)
+const DURANGO_BOUNDS = L.latLngBounds(
+  L.latLng(23.4, -105.4),
+  L.latLng(24.9, -103.9)
+);
+
+const map = L.map("map", {
+  maxBounds: DURANGO_BOUNDS,
+  maxBoundsViscosity: 1.0
+}).setView(DURANGO, 13);
+map.setMinZoom(10);
+map.setMaxZoom(18);
 const routeLayer = L.layerGroup().addTo(map);
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  attribution: "© OpenStreetMap"
+  attribution: "(c) OpenStreetMap"
 }).addTo(map);
+
+// If layout changes after first paint (shared CSS, navbar rendering), Leaflet needs this.
+queueMicrotask(() => map.invalidateSize());
+setTimeout(() => map.invalidateSize(), 50);
 
 async function cargarRutas() {
   try {
@@ -103,6 +119,9 @@ function dibujarMarcadores(rutas) {
     const lat = toNumber(ruta.startLat ?? ruta.lat) ?? DURANGO[0];
     const lng = toNumber(ruta.startLng ?? ruta.lng) ?? DURANGO[1];
 
+    // Evita colocar marcadores fuera de Durango.
+    if (!DURANGO_BOUNDS.contains([lat, lng])) return;
+
     const marker = L.marker([lat, lng])
       .addTo(map)
       .bindPopup(`
@@ -150,10 +169,20 @@ async function trazarRuta(ruta) {
     return;
   }
 
+  if (
+    !DURANGO_BOUNDS.contains([startLat, startLng]) ||
+    !DURANGO_BOUNDS.contains([endLat, endLng])
+  ) {
+    setRouteStatus("Esta ruta no esta dentro de Durango, Durango, Mexico.", "warn");
+    routeLayer.clearLayers();
+    return;
+  }
+
   setRouteStatus("Cargando ruta...", "info");
   routeLayer.clearLayers();
 
   try {
+    map.invalidateSize();
     const geometry = await fetchOsrmRoute(startLat, startLng, endLat, endLng);
     const line = L.geoJSON(geometry, {
       style: { color: "#2d5a27", weight: 5, opacity: 0.9 }
