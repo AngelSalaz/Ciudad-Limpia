@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640">
+  <defs>
+    <style>
+      .t { font: 16px monospace; fill: #0b1b10; }
+      .h { font: 22px monospace; font-weight: 700; fill: #0b1b10; }
+      .box { fill: #ffffff; stroke: #2d5a27; stroke-width: 3; rx: 16; }
+      .box2 { fill: #f4f7f6; stroke: #2d5a27; stroke-width: 3; rx: 16; }
+      .note { font: 14px monospace; fill: #334; }
+      .arrow { stroke: #2d5a27; stroke-width: 3; fill: none; marker-end: url(#m); }
+    </style>
+    <marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2d5a27"/>
+    </marker>
+  </defs>
+
+  <rect x="28" y="20" width="1144" height="600" class="box2"/>
+  <text x="56" y="62" class="h">Ciudad Limpia - Arquitectura (cliente web + Firebase)</text>
+
+  <!-- Browser -->
+  <rect x="70" y="120" width="380" height="170" class="box"/>
+  <text x="96" y="156" class="h">Navegador (Cliente Web)</text>
+  <text x="96" y="186" class="t">HTML / CSS / JS (ES Modules)</text>
+  <text x="96" y="212" class="t">Componentes: navbar, auth</text>
+  <text x="96" y="238" class="t">Paginas: Home, Reportes, Rutas, Admin</text>
+  <text x="96" y="264" class="t">Consumo de RTDB via fetch (token auth)</text>
+
+  <!-- Hosting -->
+  <rect x="520" y="110" width="610" height="92" class="box"/>
+  <text x="546" y="146" class="h">Firebase Hosting</text>
+  <text x="546" y="174" class="t">Publica archivos estaticos (hosting.public = ".")</text>
+
+  <!-- Auth -->
+  <rect x="520" y="230" width="290" height="140" class="box"/>
+  <text x="546" y="266" class="h">Firebase Auth</text>
+  <text x="546" y="296" class="t">Login / Logout</text>
+  <text x="546" y="322" class="t">Obtencion de ID Token</text>
+  <text x="546" y="348" class="t">Control de rol (admin/user)</text>
+
+  <!-- RTDB -->
+  <rect x="840" y="230" width="290" height="140" class="box"/>
+  <text x="866" y="266" class="h">Realtime Database</text>
+  <text x="866" y="296" class="t">/users/{uid}</text>
+  <text x="866" y="322" class="t">/reportes</text>
+  <text x="866" y="348" class="t">/rutas</text>
+
+  <!-- External APIs -->
+  <rect x="520" y="410" width="610" height="150" class="box"/>
+  <text x="546" y="446" class="h">APIs externas (terceros)</text>
+  <text x="546" y="476" class="t">Geocodificacion: Nominatim / Photon (OSM)</text>
+  <text x="546" y="502" class="t">Disponibilidad variable (rate limit)</text>
+  <text x="546" y="528" class="t">Alternativa: captura manual de coordenadas</text>
+
+  <!-- Arrows -->
+  <path class="arrow" d="M 450 165 L 520 156"/>
+  <path class="arrow" d="M 450 220 L 520 284"/>
+  <path class="arrow" d="M 450 250 L 840 284"/>
+  <path class="arrow" d="M 450 276 L 520 470"/>
+
+  <!-- Notes -->
+  <text x="72" y="322" class="note">Nota: el cliente se ejecuta completamente en el navegador.</text>
+  <text x="72" y="346" class="note">La autorizacion depende de reglas RTDB y del estado de sesion.</text>
+</svg>
+

@@ -1,4 +1,6 @@
-docs/
+docs/**
+!docs/instalacion/
+!docs/instalacion/**
 scripts/extract-pdf-text.js
 .firebase/
 public/

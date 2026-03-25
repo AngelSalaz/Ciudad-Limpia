@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560">
+  <defs>
+    <style>
+      .t { font: 16px monospace; fill: #0b1b10; }
+      .h { font: 22px monospace; font-weight: 700; fill: #0b1b10; }
+      .box { fill: #ffffff; stroke: #2d5a27; stroke-width: 3; rx: 14; }
+      .bg { fill: #f4f7f6; stroke: #2d5a27; stroke-width: 3; rx: 16; }
+      .arrow { stroke: #2d5a27; stroke-width: 3; fill: none; marker-end: url(#m); }
+      .cmd { font: 14px monospace; fill: #243; }
+    </style>
+    <marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2d5a27"/>
+    </marker>
+  </defs>
+
+  <rect x="28" y="20" width="1144" height="500" class="bg"/>
+  <text x="56" y="62" class="h">Flujo de despliegue en Firebase Hosting</text>
+
+  <rect x="80" y="110" width="1040" height="80" class="box"/>
+  <text x="110" y="148" class="t">1) Instalar Firebase CLI</text>
+  <text x="420" y="148" class="cmd">npm install -g firebase-tools</text>
+
+  <rect x="80" y="220" width="1040" height="80" class="box"/>
+  <text x="110" y="258" class="t">2) Autenticacion</text>
+  <text x="420" y="258" class="cmd">firebase login</text>
+
+  <rect x="80" y="330" width="1040" height="90" class="box"/>
+  <text x="110" y="368" class="t">3) Seleccionar proyecto</text>
+  <text x="420" y="360" class="cmd">firebase use</text>
+  <text x="420" y="386" class="cmd">(o firebase use --add)</text>
+
+  <rect x="80" y="450" width="1040" height="80" class="box"/>
+  <text x="110" y="488" class="t">4) Deploy</text>
+  <text x="420" y="488" class="cmd">firebase deploy --only hosting</text>
+
+  <path class="arrow" d="M 600 190 L 600 220"/>
+  <path class="arrow" d="M 600 300 L 600 330"/>
+  <path class="arrow" d="M 600 420 L 600 450"/>
+</svg>
+

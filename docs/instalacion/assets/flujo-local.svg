@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520">
+  <defs>
+    <style>
+      .t { font: 16px monospace; fill: #0b1b10; }
+      .h { font: 22px monospace; font-weight: 700; fill: #0b1b10; }
+      .box { fill: #ffffff; stroke: #2d5a27; stroke-width: 3; rx: 14; }
+      .bg { fill: #f4f7f6; stroke: #2d5a27; stroke-width: 3; rx: 16; }
+      .arrow { stroke: #2d5a27; stroke-width: 3; fill: none; marker-end: url(#m); }
+    </style>
+    <marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2d5a27"/>
+    </marker>
+  </defs>
+
+  <rect x="28" y="20" width="1144" height="460" class="bg"/>
+  <text x="56" y="62" class="h">Flujo de instalacion y ejecucion local</text>
+
+  <rect x="80" y="120" width="300" height="90" class="box"/>
+  <text x="110" y="160" class="t">1) git clone</text>
+  <text x="110" y="186" class="t">2) cd Ciudad-Limpia</text>
+
+  <rect x="450" y="120" width="300" height="90" class="box"/>
+  <text x="480" y="160" class="t">3) npm ci</text>
+  <text x="480" y="186" class="t">(dependencias)</text>
+
+  <rect x="820" y="120" width="300" height="90" class="box"/>
+  <text x="850" y="160" class="t">4) servidor HTTP</text>
+  <text x="850" y="186" class="t">npx http-server . -p 5501</text>
+
+  <rect x="80" y="270" width="520" height="120" class="box"/>
+  <text x="110" y="312" class="t">5) abrir navegador</text>
+  <text x="110" y="338" class="t">http://127.0.0.1:5501/</text>
+  <text x="110" y="364" class="t">index.html redirige a Home/inicio.html</text>
+
+  <rect x="650" y="270" width="470" height="120" class="box"/>
+  <text x="680" y="312" class="t">6) validacion minima</text>
+  <text x="680" y="338" class="t">- login/registro</text>
+  <text x="680" y="364" class="t">- lectura/escritura RTDB segun reglas</text>
+
+  <path class="arrow" d="M 380 165 L 450 165"/>
+  <path class="arrow" d="M 750 165 L 820 165"/>
+  <path class="arrow" d="M 970 210 L 970 270"/>
+  <path class="arrow" d="M 600 330 L 650 330"/>
+</svg>
+
