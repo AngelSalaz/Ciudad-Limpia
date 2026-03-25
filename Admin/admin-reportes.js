@@ -82,10 +82,6 @@ tablaBody.addEventListener("click", async (event) => {
     await abrirEditar(id);
     return;
   }
-
-  if (action === "eliminar") {
-    await eliminarReporte(id);
-  }
 });
 
 async function cargarReportes() {
@@ -163,7 +159,6 @@ function renderTabla() {
       <td>
         <div class="acciones">
           <button class="btn-editar" data-action="editar" data-id="${id}">Editar</button>
-          <button class="btn-eliminar" data-action="eliminar" data-id="${id}">Eliminar</button>
         </div>
       </td>
     `;
@@ -231,13 +226,6 @@ async function guardarEdicion() {
 function cerrarModal() {
   modal.style.display = "none";
   modal.setAttribute("aria-hidden", "true");
-}
-
-async function eliminarReporte(id) {
-  if (!confirm("Eliminar reporte?")) return;
-
-  await fetchWithAuth(`${DB_BASE}/${id}.json`, { method: "DELETE" }, sessionUser);
-  await cargarReportes();
 }
 
 function toSafeLower(value) {
