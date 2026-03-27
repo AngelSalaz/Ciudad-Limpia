@@ -21,17 +21,17 @@
     <main class="content">
       <section class="admin-dropdown-wrap">
         <details class="admin-dropdown">
-          <summary>Admin Panel</summary>
-          <nav class="admin-dropdown__menu" aria-label="Menu admin">
-            <a href="admin-reportes.html">Gestion de reportes</a>
-            <a class="active" href="admin-rutas.html">Gestion de rutas</a>
-            <a href="admin-usuarios.html">Gestion de usuarios</a>
+          <summary>Panel Administrativo</summary>
+          <nav class="admin-dropdown__menu" aria-label="Menú admin">
+            <a href="admin-reportes.html">Gestión de reportes</a>
+            <a class="active" href="admin-rutas.html">Gestión de rutas</a>
+            <a href="admin-usuarios.html">Gestión de usuarios</a>
           </nav>
         </details>
       </section>
 
       <div class="topbar">
-        <h1>Gestion de Rutas</h1>
+        <h1>Gestión de Rutas</h1>
         <button id="btnRecargar" type="button">Recargar</button>
       </div>
 
@@ -44,19 +44,19 @@
           <input
             type="text"
             id="inicioCp"
-            placeholder="CP inicio (5 digitos)"
+            placeholder="CP inicio (5 dígitos)"
             inputmode="numeric"
             pattern="[0-9]{5}"
             maxlength="5"
             autocomplete="postal-code"
-            title="Ingresa 5 digitos"
+            title="Ingresa 5 dígitos"
             required
           >
           <select id="inicioColoniaSelect" required disabled>
             <option value="">Colonia inicio</option>
           </select>
           <div class="coord-row">
-            <input type="text" id="inicioDireccion" placeholder="Direccion inicio">
+            <input type="text" id="inicioDireccion" placeholder="Dirección inicio">
             <button type="button" id="btnGeoInicio" class="btn-geo">Buscar coordenadas</button>
           </div>
           <input type="number" id="inicioLat" placeholder="Latitud inicio" step="any" min="-90" max="90">
@@ -65,19 +65,19 @@
           <input
             type="text"
             id="finCp"
-            placeholder="CP fin (5 digitos)"
+            placeholder="CP fin (5 dígitos)"
             inputmode="numeric"
             pattern="[0-9]{5}"
             maxlength="5"
             autocomplete="postal-code"
-            title="Ingresa 5 digitos"
+            title="Ingresa 5 dígitos"
             required
           >
           <select id="finColoniaSelect" required disabled>
             <option value="">Colonia fin</option>
           </select>
           <div class="coord-row">
-            <input type="text" id="finDireccion" placeholder="Direccion fin">
+            <input type="text" id="finDireccion" placeholder="Dirección fin">
             <button type="button" id="btnGeoFin" class="btn-geo">Buscar coordenadas</button>
           </div>
           <input type="number" id="finLat" placeholder="Latitud fin" step="any" min="-90" max="90">
@@ -85,14 +85,14 @@
 
           <input type="time" id="hora" required>
           <select id="dia" required>
-            <option value="">Seleccionar dia</option>
-            <option>Lunes</option>
-            <option>Martes</option>
-            <option>Miercoles</option>
-            <option>Jueves</option>
-            <option>Viernes</option>
-            <option>Sabado</option>
-            <option>Domingo</option>
+            <option value="">Seleccionar día</option>
+            <option value="Lunes">Lunes</option>
+            <option value="Martes">Martes</option>
+            <option value="Miercoles">Miércoles</option>
+            <option value="Jueves">Jueves</option>
+            <option value="Viernes">Viernes</option>
+            <option value="Sabado">Sábado</option>
+            <option value="Domingo">Domingo</option>
           </select>
           <button type="submit" class="btn-primary">Guardar ruta</button>
         </form>
@@ -103,14 +103,14 @@
       <div class="filtros">
         <input type="text" id="buscadorRuta" placeholder="Buscar por nombre o zona...">
         <select id="filtroDia">
-          <option value="Todos">Todos los dias</option>
-          <option>Lunes</option>
-          <option>Martes</option>
-          <option>Miercoles</option>
-          <option>Jueves</option>
-          <option>Viernes</option>
-          <option>Sabado</option>
-          <option>Domingo</option>
+          <option value="Todos">Todos los días</option>
+          <option value="Lunes">Lunes</option>
+          <option value="Martes">Martes</option>
+          <option value="Miercoles">Miércoles</option>
+          <option value="Jueves">Jueves</option>
+          <option value="Viernes">Viernes</option>
+          <option value="Sabado">Sábado</option>
+          <option value="Domingo">Domingo</option>
         </select>
       </div>
 
@@ -120,7 +120,7 @@
             <tr>
               <th>Nombre</th>
               <th>Zona</th>
-              <th>Dia</th>
+              <th>Día</th>
               <th>Hora</th>
               <th>Acciones</th>
             </tr>
@@ -141,12 +141,12 @@
       <input
         type="text"
         id="editInicioCp"
-        placeholder="CP inicio (5 digitos)"
+        placeholder="CP inicio (5 dígitos)"
         inputmode="numeric"
         pattern="[0-9]{5}"
         maxlength="5"
         autocomplete="postal-code"
-        title="Ingresa 5 digitos"
+        title="Ingresa 5 dígitos"
       >
       <label>Colonia inicio</label>
       <select id="editInicioColoniaSelect" disabled>
@@ -158,29 +158,29 @@
       <input
         type="text"
         id="editFinCp"
-        placeholder="CP fin (5 digitos)"
+        placeholder="CP fin (5 dígitos)"
         inputmode="numeric"
         pattern="[0-9]{5}"
         maxlength="5"
         autocomplete="postal-code"
-        title="Ingresa 5 digitos"
+        title="Ingresa 5 dígitos"
       >
       <label>Colonia fin</label>
       <select id="editFinColoniaSelect" disabled>
         <option value="">Seleccionar colonia</option>
       </select>
-      <label>Direccion inicio</label>
+      <label>Dirección inicio</label>
       <div class="coord-row modal-row">
-        <input type="text" id="editInicioDireccion" placeholder="Direccion inicio">
+        <input type="text" id="editInicioDireccion" placeholder="Dirección inicio">
         <button type="button" id="btnGeoInicioEdit" class="btn-geo">Buscar</button>
       </div>
       <label>Latitud inicio</label>
       <input type="number" id="editInicioLat" step="any" min="-90" max="90">
       <label>Longitud inicio</label>
       <input type="number" id="editInicioLng" step="any" min="-180" max="180">
-      <label>Direccion fin</label>
+      <label>Dirección fin</label>
       <div class="coord-row modal-row">
-        <input type="text" id="editFinDireccion" placeholder="Direccion fin">
+        <input type="text" id="editFinDireccion" placeholder="Dirección fin">
         <button type="button" id="btnGeoFinEdit" class="btn-geo">Buscar</button>
       </div>
       <label>Latitud fin</label>
@@ -189,13 +189,13 @@
       <input type="number" id="editFinLng" step="any" min="-180" max="180">
       <label>Dia</label>
       <select id="editDia">
-        <option>Lunes</option>
-        <option>Martes</option>
-        <option>Miercoles</option>
-        <option>Jueves</option>
-        <option>Viernes</option>
-        <option>Sabado</option>
-        <option>Domingo</option>
+        <option value="Lunes">Lunes</option>
+        <option value="Martes">Martes</option>
+        <option value="Miercoles">Miércoles</option>
+        <option value="Jueves">Jueves</option>
+        <option value="Viernes">Viernes</option>
+        <option value="Sabado">Sábado</option>
+        <option value="Domingo">Domingo</option>
       </select>
       <label>Hora</label>
       <input type="time" id="editHora">
