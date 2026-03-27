@@ -24,10 +24,10 @@ onAuthStateChanged(auth, async (user) => {
 
   if (user) {
     status.style.color = "#2d5a27";
-    status.textContent = role === "admin" ? "Sesion activa (admin)" : "Sesion activa";
+    status.textContent = role === "admin" ? "Sesión activa (admin)" : "Sesión activa";
   } else {
     status.style.color = "#777";
-    status.textContent = "No has iniciado sesion. Ve a Login para entrar.";
+    status.textContent = "No has iniciado sesión. Ve a Login para entrar.";
   }
 });
 
