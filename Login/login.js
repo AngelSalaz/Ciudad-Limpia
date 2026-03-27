@@ -39,7 +39,7 @@ loginForm.addEventListener("submit", async (event) => {
   } catch (error) {
     console.error("Error en login:", error);
     statusMsg.style.color = "red";
-    statusMsg.textContent = error.code || "No se pudo iniciar sesion";
+    statusMsg.textContent = error.code || "No se pudo iniciar sesión";
   } finally {
     btnLogin.disabled = false;
     btnLogin.innerText = "Entrar";
