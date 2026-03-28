@@ -1,4 +1,9 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  sendEmailVerification,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { renderNavbar } from "../../Componentes/navbar.js";
 import { auth, fetchWithAuth, firebaseConfig, getLandingPathByRole, getUserContext } from "../../Componentes/auth.js";
 
@@ -54,11 +59,19 @@ form.addEventListener("submit", async (event) => {
 
     if (!response.ok) throw new Error("No se pudo guardar el perfil");
 
-    statusMsg.style.color = "green";
-    statusMsg.textContent = "Cuenta creada correctamente";
+    // Envia correo de verificacion. El usuario debe verificar antes de iniciar sesion.
+    const baseUrl = `https://${firebaseConfig.projectId}.web.app`;
+    await sendEmailVerification(credential.user, {
+      url: `${baseUrl}/Login/verify-email.html`,
+      handleCodeInApp: true
+    });
+
+    statusMsg.style.color = "#2d5a27";
+    statusMsg.textContent = "Cuenta creada. Revisa tu correo para verificar tu cuenta antes de iniciar sesión.";
 
     setTimeout(() => {
-      window.location.href = getLandingPathByRole("user", "../..");
+      signOut(auth).catch(() => {});
+      window.location.href = "../login.html?verify=1";
     }, 700);
   } catch (error) {
     console.error("Error en registro:", error);

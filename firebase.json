@@ -6,6 +6,7 @@
       ".firebaserc",
       "**/.*",
       "**/node_modules/**",
+      "functions/**",
       "docs/**",
       "scripts/**",
       "public/**"
