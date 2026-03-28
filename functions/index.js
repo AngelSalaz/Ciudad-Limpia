@@ -9,9 +9,15 @@ function getEnv(name, fallback = "") {
   return (process.env[name] || fallback || "").toString().trim();
 }
 
-const SENDGRID_API_KEY = getEnv("SENDGRID_API_KEY");
-const SENDER_EMAIL = getEnv("SENDER_EMAIL", "ciudadlimpiadgo@gmail.com");
-const SENDER_NAME = getEnv("SENDER_NAME", "Ciudad Limpia");
+const runtimeConfig = (typeof functions.config === "function" ? functions.config() : {}) || {};
+const sendgridConfig = runtimeConfig.sendgrid || {};
+
+// Prioridad:
+// 1) Variables de entorno / Secrets (recomendado)
+// 2) Runtime config (firebase functions:config:set ...)
+const SENDGRID_API_KEY = getEnv("SENDGRID_API_KEY", sendgridConfig.key);
+const SENDER_EMAIL = getEnv("SENDER_EMAIL", sendgridConfig.sender_email || "ciudadlimpiadgo@gmail.com");
+const SENDER_NAME = getEnv("SENDER_NAME", sendgridConfig.sender_name || "Ciudad Limpia");
 
 function isEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((value || "").toString().trim());
@@ -122,4 +128,3 @@ exports.onReporteActualizado = functions.database
 
     return null;
   });
-
