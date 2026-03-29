@@ -42,7 +42,8 @@ const oobCode = params.get("oobCode");
 async function init() {
   if (!oobCode) {
     setStatus("Enlace inválido o incompleto. Solicita de nuevo la recuperación de contraseña.", "error");
-    btnReset.disabled = true;
+    // Si no hay oobCode, no se puede aplicar reset. Ocultamos el formulario para evitar confusión.
+    resetForm.style.display = "none";
     return;
   }
 
@@ -52,7 +53,7 @@ async function init() {
   } catch (error) {
     console.error("Código de recuperación inválido:", error);
     setStatus("El enlace de recuperación no es válido o ya expiró. Solicita uno nuevo.", "error");
-    btnReset.disabled = true;
+    resetForm.style.display = "none";
   }
 }
 

@@ -6,7 +6,7 @@ import {
   signOut
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { renderNavbar } from "../Componentes/navbar.js";
-import { auth, firebaseConfig, getLandingPathByRole, getUserContext } from "../Componentes/auth.js";
+import { auth, fetchWithAuth, firebaseConfig, getLandingPathByRole, getUserContext, getUserProfile } from "../Componentes/auth.js";
 
 /**
  * Pantalla de Login.
@@ -30,6 +30,52 @@ const btnResendVerification = document.getElementById("btnResendVerification");
 
 const baseUrl = `https://${firebaseConfig.projectId}.web.app`;
 
+/**
+ * Garantiza que exista un perfil en RTDB ("/users/{uid}") para usuarios verificados.
+ *
+ * Objetivo (requisito escolar):
+ * - No registrar al usuario en la base de datos (RTDB) hasta que su correo se haya verificado.
+ *
+ * Nota importante:
+ * - Firebase Auth crea la cuenta al registrarse (no se puede "posponer" esa creación sin un backend).
+ * - Lo que sí controlamos aquí (gratis) es cuándo creamos el registro en RTDB.
+ */
+async function ensureUserProfileExists(user) {
+  if (!user) return null;
+
+  const existing = await getUserProfile(user.uid, user);
+  if (existing) return existing;
+
+  const pendingKey = `pending_profile_${user.uid}`;
+  let pending = null;
+  try {
+    pending = JSON.parse(localStorage.getItem(pendingKey) || "null");
+  } catch {
+    pending = null;
+  }
+
+  const payload = {
+    name: "",
+    phone: "",
+    address: "",
+    email: user.email || "",
+    role: "user",
+    favoriteRoutes: {},
+    createdAt: new Date().toISOString(),
+    ...(pending && pending.uid === user.uid ? pending : {})
+  };
+
+  // Crear perfil en RTDB. Si las reglas exigen auth.uid === {uid}, el token ya viene en fetchWithAuth.
+  await fetchWithAuth(`${firebaseConfig.databaseURL}/users/${user.uid}.json`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  }, user);
+
+  localStorage.removeItem(pendingKey);
+  return payload;
+}
+
 renderNavbar({
   active: "login",
   user: null,
@@ -40,6 +86,10 @@ const params = new URLSearchParams(window.location.search);
 if (params.get("verify") === "1") {
   statusMsg.style.color = "#2d5a27";
   statusMsg.textContent = "Revisa tu correo. Enviamos un mensaje de verificación para activar tu cuenta.";
+}
+if (params.get("reset") === "1") {
+  statusMsg.style.color = "#2d5a27";
+  statusMsg.textContent = "Contraseña restablecida. Ya puedes iniciar sesión.";
 }
 
 onAuthStateChanged(auth, async (user) => {
@@ -52,6 +102,9 @@ onAuthStateChanged(auth, async (user) => {
     statusMsg.textContent = "Debes verificar tu correo antes de iniciar sesión. Revisa tu bandeja de entrada.";
     return;
   }
+
+  // Solo a partir de aquí el usuario está verificado: creamos el perfil en RTDB si aún no existe.
+  await ensureUserProfileExists(user);
 
   const { role } = await getUserContext(user);
   window.location.href = getLandingPathByRole(role, "..");
@@ -67,11 +120,11 @@ btnForgotPassword?.addEventListener("click", async () => {
   statusMsg.textContent = "Enviando correo de recuperación...";
 
   try {
-    // Envia un correo con enlace de restablecimiento. `handleCodeInApp` hace que el enlace
-    // redirija a nuestra pantalla `reset-password.html` y que el `oobCode` llegue por URL.
+    // Para evitar "doble formulario" (Firebase + formulario propio), usamos el flujo oficial de Firebase.
+    // El enlace abre la pantalla de restablecimiento de Firebase y al finalizar regresa a Login.
     await sendPasswordResetEmail(auth, email, {
-      url: `${baseUrl}/Login/reset-password.html`,
-      handleCodeInApp: true
+      url: `${baseUrl}/Login/login.html?reset=1`,
+      handleCodeInApp: false
     });
     statusMsg.style.color = "#2d5a27";
     statusMsg.textContent = "Correo de recuperación enviado. Revisa tu bandeja de entrada.";
@@ -113,6 +166,9 @@ loginForm.addEventListener("submit", async (event) => {
       statusMsg.textContent = "Tu correo no está verificado. Enviamos un nuevo correo de verificación.";
       return;
     }
+
+    // El usuario ya está verificado: asegurar creación de perfil en RTDB antes de redirigir.
+    await ensureUserProfileExists(credential.user);
 
     const { role } = await getUserContext(credential.user);
 

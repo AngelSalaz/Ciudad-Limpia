@@ -15,7 +15,7 @@ Implementar notificaciones por correo para:
 
 1. Registro (`Login/Registro/registro.js`):
    - Crea usuario con `createUserWithEmailAndPassword`.
-   - Guarda el perfil en Realtime Database: `/users/{uid}`.
+   - Guarda temporalmente el perfil (localStorage) y **no crea** `/users/{uid}` hasta que el correo esté verificado.
    - Envía correo de verificación con `sendEmailVerification` y `handleCodeInApp: true`.
    - Cierra sesión y redirige a Login.
 2. Verificación (`Login/verify-email.html` + `Login/verify-email.js`):
@@ -23,6 +23,7 @@ Implementar notificaciones por correo para:
    - Aplica el código con `applyActionCode`.
 3. Login (`Login/login.js`):
    - Si `emailVerified === false`, bloquea el inicio de sesión y reenvía verificación.
+   - Si `emailVerified === true`, crea `/users/{uid}` si no existe (migrando el perfil temporal si está disponible).
 
 ### Notas de implementación
 
@@ -36,11 +37,12 @@ Implementar notificaciones por correo para:
 
 1. Login (`Login/login.js`):
    - Botón "¿Olvidaste tu contraseña?"
-   - Envía `sendPasswordResetEmail` con `handleCodeInApp: true` y URL:
-     - `https://<projectId>.web.app/Login/reset-password.html`
-2. Restablecimiento (`Login/reset-password.html` + `Login/reset-password.js`):
-   - Valida `oobCode` con `verifyPasswordResetCode`.
-   - Aplica nueva contraseña con `confirmPasswordReset`.
+   - Envía `sendPasswordResetEmail` usando el **flujo oficial de Firebase** (para evitar “doble formulario”).
+   - Al finalizar el restablecimiento, Firebase regresa a:
+     - `https://<projectId>.web.app/Login/login.html?reset=1`
+
+> Nota: existe una implementación de UI propia (`Login/reset-password.html`), pero en despliegues escolares
+> y sin backend se prefiere el flujo oficial de Firebase por estabilidad y menor confusión en el usuario.
 
 ## 4. Seguimiento y estado del reporte (SendGrid en Cloud Functions)
 
@@ -101,4 +103,3 @@ sequenceDiagram
   CF->>SG: send mail
   SG-->>U: Correo de seguimiento recibido
 ```
-

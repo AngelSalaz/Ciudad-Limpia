@@ -5,19 +5,20 @@ import {
   signOut
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { renderNavbar } from "../../Componentes/navbar.js";
-import { auth, fetchWithAuth, firebaseConfig, getLandingPathByRole, getUserContext } from "../../Componentes/auth.js";
+import { auth, firebaseConfig, getLandingPathByRole, getUserContext } from "../../Componentes/auth.js";
 
 /**
  * Pantalla de Registro.
  *
  * Responsabilidad:
  * - Crear cuenta en Firebase Auth.
- * - Persistir perfil del usuario en Realtime Database: `/users/{uid}`.
+ * - Enviar verificación de correo (Firebase Auth) y cerrar sesión.
+ * - Guardar temporalmente (localStorage) la información del perfil para crear el registro en RTDB
+ *   únicamente cuando el correo haya sido verificado (ver Login/login.js -> ensureUserProfileExists).
  * - Enviar verificación de correo (Firebase Auth) y cerrar sesión.
  *
  * Invariantes / riesgos de cambios:
- * - Si cambias la ruta `/users/{uid}` o la estructura del perfil, el resto del sistema (roles, perfil, admin)
- *   puede dejar de funcionar.
+ * - Si cambias la ruta `/users/{uid}` o la estructura del perfil, el resto del sistema (roles, perfil, admin) puede fallar.
  * - Si eliminas el envío de verificación o el `signOut`, el usuario podría permanecer autenticado sin verificar.
  */
 
@@ -56,6 +57,7 @@ form.addEventListener("submit", async (event) => {
     const uid = credential.user.uid;
 
     const userData = {
+      uid,
       name,
       phone,
       address: "",
@@ -65,13 +67,11 @@ form.addEventListener("submit", async (event) => {
       createdAt: new Date().toISOString()
     };
 
-    const response = await fetchWithAuth(`${firebaseConfig.databaseURL}/users/${uid}.json`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(userData)
-    }, credential.user);
-
-    if (!response.ok) throw new Error("No se pudo guardar el perfil");
+    // Requisito: no crear el perfil en RTDB hasta que el correo sea verificado.
+    // Guardamos la información localmente para que, al primer login verificado, se cree `/users/{uid}`.
+    // Limitación: si el usuario verifica/inicia sesión desde otro dispositivo, no habrá datos para migrar
+    // y se creará un perfil mínimo (ver Login/login.js).
+    localStorage.setItem(`pending_profile_${uid}`, JSON.stringify(userData));
 
     // Envia correo de verificacion. El usuario debe verificar antes de iniciar sesion.
     // Si se cambia la URL, hay que mantener disponible `verify-email.html` en Hosting.
