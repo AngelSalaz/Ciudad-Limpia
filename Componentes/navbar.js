@@ -1,4 +1,15 @@
 export function renderNavbar({ active = "inicio", user = null, role = "user", base = ".." } = {}) {
+  /**
+   * Renderiza la barra de navegación (navbar) en todas las pantallas.
+   *
+   * Invariantes (si se cambian, se rompe la navegación o los estilos):
+   * - Requiere un contenedor con la clase `.nav__links` en el HTML.
+   * - `base` define el prefijo de rutas relativas (ej. ".." o "../..").
+   * - Si `role === "admin"`, se muestra el enlace a Admin.
+   * - El link de perfil apunta a:
+   *   - admin: `Admin/admin-perfil.html`
+   *   - user: `Usuarios/Usuarios-perfil.html`
+   */
   const navLinks = document.querySelector(".nav__links");
   if (!navLinks) return;
 

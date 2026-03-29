@@ -8,6 +8,20 @@ import {
 import { renderNavbar } from "../Componentes/navbar.js";
 import { auth, firebaseConfig, getLandingPathByRole, getUserContext } from "../Componentes/auth.js";
 
+/**
+ * Pantalla de Login.
+ *
+ * Responsabilidad:
+ * - Iniciar sesión con correo/contraseña (Firebase Auth).
+ * - Bloquear acceso si el correo NO está verificado.
+ * - Permitir recuperación de contraseña (envío de correo con enlace).
+ *
+ * Invariantes / riesgos de cambios:
+ * - Si se elimina la validación `emailVerified`, usuarios no verificados podrán entrar.
+ * - Las URLs de acción (`verify-email.html`, `reset-password.html`) deben existir en Hosting.
+ *   Si cambian de ruta, hay que actualizar `baseUrl` y las llamadas a Auth.
+ */
+
 const loginForm = document.getElementById("loginForm");
 const statusMsg = document.getElementById("status");
 const btnLogin = document.getElementById("btnLogin");
@@ -32,6 +46,7 @@ onAuthStateChanged(auth, async (user) => {
   if (!user) return;
 
   if (user.emailVerified === false) {
+    // Mantiene la seguridad básica: no permitir acceso mientras no verifique correo.
     await signOut(auth);
     statusMsg.style.color = "red";
     statusMsg.textContent = "Debes verificar tu correo antes de iniciar sesión. Revisa tu bandeja de entrada.";
@@ -52,6 +67,8 @@ btnForgotPassword?.addEventListener("click", async () => {
   statusMsg.textContent = "Enviando correo de recuperación...";
 
   try {
+    // Envia un correo con enlace de restablecimiento. `handleCodeInApp` hace que el enlace
+    // redirija a nuestra pantalla `reset-password.html` y que el `oobCode` llegue por URL.
     await sendPasswordResetEmail(auth, email, {
       url: `${baseUrl}/Login/reset-password.html`,
       handleCodeInApp: true
@@ -85,6 +102,7 @@ loginForm.addEventListener("submit", async (event) => {
     const credential = await signInWithEmailAndPassword(auth, email, password);
 
     if (credential.user.emailVerified === false) {
+      // Reenvía verificación para mejorar UX: el usuario recibe un nuevo enlace si perdió el anterior.
       await sendEmailVerification(credential.user, {
         url: `${baseUrl}/Login/verify-email.html`,
         handleCodeInApp: true

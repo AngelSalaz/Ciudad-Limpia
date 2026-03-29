@@ -1,4 +1,13 @@
-docs/
+# Documentación
+# Se ignora por defecto para no subir fuentes pesadas (PDF/DOC) ni material auxiliar.
+# Se versiona únicamente la documentación técnica requerida por el proyecto.
+docs/*
+!docs/tecnico/
+!docs/tecnico/**
+
+# Scripts internos (no forman parte del deploy del hosting)
 scripts/extract-pdf-text.js
+
+# Artefactos locales
 .firebase/
 public/

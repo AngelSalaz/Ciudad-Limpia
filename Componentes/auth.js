@@ -1,18 +1,29 @@
 import { firebaseConfig } from "../firebase-config.js";
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-// 1. Importamos Firestore
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+/**
+ * Módulo de autenticación y utilidades para consumir Realtime Database (REST API).
+ *
+ * Responsabilidad:
+ * - Inicializar Firebase App y Auth (cliente).
+ * - Normalizar rol (admin/user) desde `/users/{uid}.role`.
+ * - Proveer `fetchWithAuth` para anexar `auth=<ID_TOKEN>` a las URLs de RTDB.
+ *
+ * Invariantes (si se cambian, puede romperse el flujo):
+ * - `fetchWithAuth` agrega el token en el query param `auth`.
+ *   Si se elimina, las reglas de RTDB pueden bloquear lecturas/escrituras (PERMISSION_DENIED).
+ * - El rol se lee desde RTDB (`/users/{uid}.role`).
+ */
 
 // Inicialización de la App
 const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 
 // 2. Inicializamos los servicios
 const auth = getAuth(app);
-const db = getFirestore(app); // Instancia de Firestore para reportes y mensajes
 
 // Exportaciones base
-export { auth, db, firebaseConfig };
+export { auth, firebaseConfig };
 
 /**
  * Normaliza los roles para el sistema de navegación

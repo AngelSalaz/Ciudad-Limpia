@@ -2,6 +2,19 @@ import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/f
 import { renderNavbar } from "../Componentes/navbar.js";
 import { auth, fetchWithAuth, firebaseConfig, getUserContext, logoutUser } from "../Componentes/auth.js";
 
+/**
+ * Pantalla de Rutas (usuario).
+ *
+ * Tecnologías externas:
+ * - Leaflet (UI de mapa) + teselas de OpenStreetMap.
+ * - OSRM (router.project-osrm.org) para trazar una ruta realista (no línea recta).
+ *
+ * Riesgo de cambios / operación:
+ * - OSRM público es un servicio de demostración: puede limitar o fallar solicitudes.
+ * - Si se cambia el endpoint o el formato de respuesta, `fetchOsrmRoute` debe ajustarse.
+ * - El bounding box limita el mapa al municipio de Durango; si se cambia, se podrán mostrar rutas fuera del área.
+ */
+
 const DB_URL = `${firebaseConfig.databaseURL}/rutas.json`;
 
 const inputBusqueda = document.getElementById("buscarRuta");
@@ -204,6 +217,7 @@ async function trazarRuta(ruta) {
 }
 
 async function fetchOsrmRoute(startLat, startLng, endLat, endLng) {
+  // OSRM requiere el orden: lng,lat (no lat,lng).
   const url = `https://router.project-osrm.org/route/v1/driving/${startLng},${startLat};${endLng},${endLat}?overview=full&geometries=geojson`;
   const response = await fetch(url);
   const data = await response.json().catch(() => ({}));

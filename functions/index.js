@@ -1,14 +1,46 @@
 /* eslint-disable max-len */
+
+/**
+ * Cloud Functions - Ciudad Limpia
+ *
+ * Responsabilidad:
+ * - Enviar correos transaccionales (SendGrid) cuando ocurren eventos en Realtime Database.
+ *
+ * Importante (invariantes):
+ * - Rutas RTDB esperadas:
+ *   - /seguimientoSolicitudes/{key}   (onCreate)  -> confirma solicitud de seguimiento al usuario
+ *   - /reportes/{reporteId}           (onUpdate)  -> notifica cambios de estado del reporte
+ * - Campos mínimos esperados:
+ *   - seguimientoSolicitudes: usuarioEmail, reporteId, pregunta
+ *   - reportes: usuarioEmail, estado, tipo, ubicacion
+ *
+ * Configuración (recomendado por variables de entorno o Secrets):
+ * - SENDGRID_API_KEY: API key de SendGrid (NO exponer en frontend).
+ * - SENDER_EMAIL: remitente verificado en SendGrid (ej. ciudadlimpiadgo@gmail.com).
+ * - SENDER_NAME: nombre del remitente.
+ *
+ * Qué se rompe si se modifica:
+ * - Cambiar las rutas de RTDB (strings /seguimientoSolicitudes o /reportes) deshabilita los triggers.
+ * - Cambiar el campo "estado" en reportes exige actualizar la condición before/after para evitar correos duplicados.
+ * - Cambiar el campo "usuarioEmail" puede provocar correos sin destino (se omite envío por validación).
+ */
+
 const admin = require("firebase-admin");
 const functions = require("firebase-functions");
 const sgMail = require("@sendgrid/mail");
 
 admin.initializeApp();
 
+/**
+ * Lee una variable de entorno y la normaliza a string.
+ * Si se cambia el nombre de una variable (p.ej. SENDGRID_API_KEY),
+ * el sistema dejará de enviar correos hasta actualizar la configuración.
+ */
 function getEnv(name, fallback = "") {
   return (process.env[name] || fallback || "").toString().trim();
 }
 
+// Runtime config (firebase functions:config:set sendgrid.key="..." ...)
 const runtimeConfig = (typeof functions.config === "function" ? functions.config() : {}) || {};
 const sendgridConfig = runtimeConfig.sendgrid || {};
 
@@ -19,10 +51,20 @@ const SENDGRID_API_KEY = getEnv("SENDGRID_API_KEY", sendgridConfig.key);
 const SENDER_EMAIL = getEnv("SENDER_EMAIL", sendgridConfig.sender_email || "ciudadlimpiadgo@gmail.com");
 const SENDER_NAME = getEnv("SENDER_NAME", sendgridConfig.sender_name || "Ciudad Limpia");
 
+/**
+ * Valida formato básico de email.
+ * Si se relaja esta validación, SendGrid seguirá pudiendo fallar (o disparar rebotes),
+ * por lo que no se recomienda eliminarla.
+ */
 function isEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((value || "").toString().trim());
 }
 
+/**
+ * Inicializa SendGrid si hay API Key.
+ * - Si SENDGRID_API_KEY no está configurada, se loguea advertencia y se evita el envío.
+ * - Si se elimina esta verificación, el envío fallará con error al primer sgMail.send.
+ */
 function initSendgridIfPossible() {
   if (!SENDGRID_API_KEY) {
     functions.logger.warn("SENDGRID_API_KEY no esta configurada. No se enviaran correos.");
@@ -32,6 +74,13 @@ function initSendgridIfPossible() {
   return true;
 }
 
+/**
+ * Envía un correo transaccional.
+ *
+ * Consideraciones:
+ * - "from" debe estar verificado en SendGrid (Single Sender o dominio verificado).
+ * - No debe llamarse desde frontend (la API key debe mantenerse en backend).
+ */
 async function sendEmail({ to, subject, text, html }) {
   if (!initSendgridIfPossible()) return;
   if (!isEmail(to)) {
@@ -48,10 +97,22 @@ async function sendEmail({ to, subject, text, html }) {
   });
 }
 
+/**
+ * Normaliza valores a string no nulo para evitar "undefined" en plantillas.
+ */
 function safe(value) {
   return (value || "").toString();
 }
 
+/**
+ * Trigger: se crea una solicitud de seguimiento.
+ *
+ * Ruta: /seguimientoSolicitudes/{key}
+ * Evento: onCreate
+ *
+ * Si se cambia la ruta o el nombre de los campos del payload en RTDB,
+ * el correo puede salir con datos incompletos ("N/A") o no enviarse.
+ */
 exports.onSeguimientoSolicitado = functions.database
   .ref("/seguimientoSolicitudes/{key}")
   .onCreate(async (snapshot, context) => {
@@ -83,6 +144,20 @@ exports.onSeguimientoSolicitado = functions.database
     }
   });
 
+/**
+ * Trigger: se actualiza un reporte.
+ *
+ * Ruta: /reportes/{reporteId}
+ * Evento: onUpdate
+ *
+ * Regla de negocio:
+ * - Solo se notifica cuando cambia el campo "estado".
+ *
+ * Impacto de cambios:
+ * - Si se elimina la condición (beforeEstado === afterEstado), se enviarán correos en cualquier update
+ *   (incluyendo cambios de descripción, ubicación, etc.).
+ * - Si se renombra el campo "estado", la notificación nunca se disparará.
+ */
 exports.onReporteActualizado = functions.database
   .ref("/reportes/{reporteId}")
   .onUpdate(async (change, context) => {

@@ -2,6 +2,23 @@ import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/f
 import { renderNavbar } from "../Componentes/navbar.js";
 import { auth, fetchWithAuth, firebaseConfig, getUserContext, logoutUser } from "../Componentes/auth.js";
 
+/**
+ * Gestión de rutas (Admin).
+ *
+ * Responsabilidad:
+ * - CRUD de rutas en RTDB: `/rutas/{rutaId}`.
+ * - Geocodificación de direcciones a coordenadas (lat/lng) para poder trazar rutas en el mapa del usuario.
+ * - Selección de colonias por CP usando dataset local SEPOMEX (Durango municipio).
+ *
+ * Integraciones externas (sin API key):
+ * - Nominatim (OSM) y Photon (fallback) para geocodificar texto.
+ *
+ * Invariantes / riesgos de cambios:
+ * - Mantener el dataset `data/sepomex-durango-municipio.json` disponible (paths relativos).
+ * - Mantener las rutas RTDB (`/rutas`) y los campos de coordenadas (startLat/startLng/endLat/endLng).
+ * - Servicios públicos de geocodificación tienen límites; si se incrementa el tráfico, se recomienda self-host.
+ */
+
 const DB_BASE = `${firebaseConfig.databaseURL}/rutas`;
 
 const rutaForm = document.getElementById("rutaForm");

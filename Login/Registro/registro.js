@@ -7,6 +7,20 @@ import {
 import { renderNavbar } from "../../Componentes/navbar.js";
 import { auth, fetchWithAuth, firebaseConfig, getLandingPathByRole, getUserContext } from "../../Componentes/auth.js";
 
+/**
+ * Pantalla de Registro.
+ *
+ * Responsabilidad:
+ * - Crear cuenta en Firebase Auth.
+ * - Persistir perfil del usuario en Realtime Database: `/users/{uid}`.
+ * - Enviar verificación de correo (Firebase Auth) y cerrar sesión.
+ *
+ * Invariantes / riesgos de cambios:
+ * - Si cambias la ruta `/users/{uid}` o la estructura del perfil, el resto del sistema (roles, perfil, admin)
+ *   puede dejar de funcionar.
+ * - Si eliminas el envío de verificación o el `signOut`, el usuario podría permanecer autenticado sin verificar.
+ */
+
 const form = document.getElementById("registerForm");
 const statusMsg = document.getElementById("status");
 const btnRegister = document.getElementById("btnRegister");
@@ -60,6 +74,7 @@ form.addEventListener("submit", async (event) => {
     if (!response.ok) throw new Error("No se pudo guardar el perfil");
 
     // Envia correo de verificacion. El usuario debe verificar antes de iniciar sesion.
+    // Si se cambia la URL, hay que mantener disponible `verify-email.html` en Hosting.
     const baseUrl = `https://${firebaseConfig.projectId}.web.app`;
     await sendEmailVerification(credential.user, {
       url: `${baseUrl}/Login/verify-email.html`,

@@ -2,6 +2,20 @@ import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/f
 import { renderNavbar } from "../Componentes/navbar.js";
 import { auth, firebaseConfig, fetchWithAuth, getUserContext, logoutUser } from "../Componentes/auth.js";
 
+/**
+ * Perfil de Usuario (CRUD + reportes + rutas favoritas + solicitud de seguimiento).
+ *
+ * Responsabilidad:
+ * - Permitir al usuario editar su información básica (name/phone/address) en RTDB: `/users/{uid}`.
+ * - Mostrar reportes del usuario (RTDB: `/reportes`) y permitir solicitar seguimiento.
+ * - Administrar rutas favoritas (RTDB: `/users/{uid}/favoriteRoutes`).
+ *
+ * Invariantes / riesgos de cambios:
+ * - Rutas RTDB usadas aquí deben coincidir con las reglas y con Cloud Functions:
+ *   - Seguimiento: `/seguimientoSolicitudes/{key}` (Functions dispara correo en onCreate).
+ *   - Si se cambia el path o se deja de enviar `usuarioEmail`, no llegará correo.
+ */
+
 const profileForm = document.getElementById("profileForm");
 const nameInput = document.getElementById("nameInput");
 const phoneInput = document.getElementById("phoneInput");
@@ -138,6 +152,11 @@ reportsTableBody.addEventListener("click", async (event) => {
   button.disabled = true;
 
   try {
+    // Payload que se guarda en RTDB y es consumido por Cloud Functions para enviar correo por SendGrid.
+    // Campos críticos:
+    // - usuarioEmail: destino del correo
+    // - reporteId: folio
+    // - pregunta: texto de la solicitud
     const payload = {
       reporteId: reportId,
       usuarioUid: currentUser.uid,
@@ -152,6 +171,8 @@ reportsTableBody.addEventListener("click", async (event) => {
       reporteFecha: report.fecha || ""
     };
 
+    // La key `{uid}_{reporteId}` evita duplicados por usuario+reporte.
+    // Si se cambia este patrón, hay que ajustar la detección de duplicados en el UI.
     await fetchWithAuth(trackingRequestUrl(currentUser.uid, reportId), {
       method: "PUT",
       headers: { "Content-Type": "application/json" },

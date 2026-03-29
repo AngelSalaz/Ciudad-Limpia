@@ -5,6 +5,19 @@ import {
 import { renderNavbar } from "../Componentes/navbar.js";
 import { auth } from "../Componentes/auth.js";
 
+/**
+ * Restablecimiento de contraseña (handleCodeInApp).
+ *
+ * Flujo:
+ * - El usuario abre un enlace con `oobCode` (enviado por Firebase Auth).
+ * - Se valida el código con `verifyPasswordResetCode`.
+ * - Se confirma la nueva contraseña con `confirmPasswordReset`.
+ *
+ * Riesgo de cambios:
+ * - Si la página deja de estar en Hosting o cambia de ruta, los enlaces de recuperación fallarán.
+ * - Si se elimina la validación del código, se pierde retroalimentación clara al usuario.
+ */
+
 renderNavbar({
   active: "login",
   user: null,
@@ -74,4 +87,3 @@ resetForm.addEventListener("submit", async (event) => {
 });
 
 init();
-

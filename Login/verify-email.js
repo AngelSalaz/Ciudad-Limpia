@@ -2,6 +2,17 @@ import { applyActionCode } from "https://www.gstatic.com/firebasejs/10.12.0/fire
 import { renderNavbar } from "../Componentes/navbar.js";
 import { auth } from "../Componentes/auth.js";
 
+/**
+ * Verificación de correo (handleCodeInApp).
+ *
+ * Firebase Auth envía un enlace con `oobCode`.
+ * Esta página lee ese `oobCode` y lo aplica con `applyActionCode`.
+ *
+ * Riesgo de cambios:
+ * - Si se renombra el parámetro `oobCode` o se cambia el flujo de URL,
+ *   el enlace de verificación dejará de funcionar.
+ */
+
 renderNavbar({
   active: "login",
   user: null,
@@ -34,4 +45,3 @@ async function verify() {
 }
 
 verify();
-
