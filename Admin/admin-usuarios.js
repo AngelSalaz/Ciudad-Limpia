@@ -138,7 +138,7 @@ function renderTabla() {
       <td>${escapeHtml(usuario.name || "Sin nombre")}</td>
       <td>${escapeHtml(usuario.email || "-")}</td>
       <td>${escapeHtml(usuario.phone || "-")}</td>
-      <td>${rolLabel}</td>
+      <td>${escapeHtml(rolLabel)}</td>
       <td>
         <div class="role-control">
           <select id="role-${uid}">
