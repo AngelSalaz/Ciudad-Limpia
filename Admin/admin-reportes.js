@@ -199,6 +199,12 @@ async function abrirEditar(id) {
   editDescripcion.value = data.descripcion || "";
   editEstado.value = data.estado || "Pendiente";
 
+  // Solo permitimos modificar el estado.
+  editTipo.readOnly = true;
+  editUsuario.readOnly = true;
+  editUbicacion.readOnly = true;
+  editDescripcion.readOnly = true;
+
   modal.style.display = "flex";
   modal.setAttribute("aria-hidden", "false");
 }
