@@ -208,8 +208,7 @@ body {
   gap: 8px;
 }
 
-.btn-editar,
-.btn-eliminar {
+.btn-editar {
   width: 110px;
   border: none;
   border-radius: 10px;
@@ -220,10 +219,6 @@ body {
 
 .btn-editar {
   background: var(--warn);
-}
-
-.btn-eliminar {
-  background: var(--danger);
   color: #fff;
 }
 
@@ -254,7 +249,9 @@ body {
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding: 18px 12px;
+  overflow: auto;
   z-index: 1000;
 }
 
@@ -264,6 +261,8 @@ body {
   border-radius: 16px;
   padding: 24px;
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+  max-height: calc(100vh - 36px);
+  overflow: auto;
 }
 
 .modal-content h2 {
@@ -281,6 +280,16 @@ body {
   border: 1px solid #cfd4dc;
   border-radius: 10px;
   font-family: inherit;
+}
+
+.modal-content input[readonly],
+.modal-content textarea[readonly] {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.modal-content textarea[readonly] {
+  resize: none;
 }
 
 .modal-buttons {
