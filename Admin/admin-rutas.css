@@ -336,7 +336,9 @@ body {
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding: 18px 12px;
+  overflow: auto;
   z-index: 1000;
 }
 
@@ -346,7 +348,7 @@ body {
   border-radius: 16px;
   padding: 24px;
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
-  max-height: 90vh;
+  max-height: calc(100vh - 36px);
   overflow: auto;
 }
 
@@ -425,5 +427,29 @@ body {
 
   .ruta-form {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .modal-content {
+    padding: 18px 16px;
+  }
+
+  .modal-content .coord-row {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-content .btn-geo {
+    width: 100%;
+  }
+
+  .modal-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #btnGuardarRuta,
+  #btnCerrarRuta {
+    width: 100%;
   }
 }
