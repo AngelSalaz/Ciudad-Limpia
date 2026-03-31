@@ -94,6 +94,14 @@
   border-radius: 50%;
 }
 
+.nav__profile-img.nav__profile-icon {
+  width: 70%;
+  height: 70%;
+  object-fit: unset;
+  border-radius: 0;
+  color: #2d5a27;
+}
+
 .inicio-page {
   font-family: "Poppins", sans-serif;
   background: #f4f7f6;
