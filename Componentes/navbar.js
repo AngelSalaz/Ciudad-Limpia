@@ -17,9 +17,11 @@ export function renderNavbar({ active = "inicio", user = null, role = "user", ba
       <a class="${is("reportes")}" href="${prefix}Reportes/reportes.html">Reportes</a>
       <a class="${is("rutas")}" href="${prefix}Rutas/Rutas.html">Rutas</a>
       <a class="${is("contacto")}" href="${prefix}Contacto/Contacto.html">Soporte</a>
-      ${isAdmin ? `<a class="${is("admin")}" href="${prefix}Admin/admin.html">Admin</a>` : ""}
+      ${isAdmin ? `<a class="${is("admin")}" href="${prefix}Admin/admin.html">Administrador</a>` : ""}
       <a class="${profileClass}" href="${profileHref}" aria-label="Mi perfil" title="Mi perfil">
-        <img src="${prefix}Imagenes/images.png" class="nav__profile-img" alt="Perfil" />
+        <svg class="nav__profile-img nav__profile-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M12 12a4 4 0 1 0-4-4a4 4 0 0 0 4 4Zm0 2c-4.418 0-8 2.239-8 5v1h16v-1c0-2.761-3.582-5-8-5Z"/>
+        </svg>
       </a>
     `;
   } else {
