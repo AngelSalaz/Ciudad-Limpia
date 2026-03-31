@@ -113,14 +113,14 @@ function mostrarRutas(rutas) {
     button.innerHTML = `
       <strong>${ruta.nombre || "Ruta"}</strong><br>
       Zona: ${ruta.zona || "-"}<br>
-      Dia: ${ruta.dia || "-"}<br>
+      Día: ${ruta.dia || "-"}<br>
       Hora: ${ruta.hora || "-"}
     `;
     resultado.appendChild(button);
   });
 
   if (!rutas.length) {
-    resultado.innerHTML = "<p>No hay resultados para esa busqueda.</p>";
+    resultado.innerHTML = "<p>No hay resultados para esa búsqueda.</p>";
   }
 }
 

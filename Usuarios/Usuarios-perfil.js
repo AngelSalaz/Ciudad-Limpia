@@ -412,7 +412,7 @@ function renderFavorites() {
     div.innerHTML = `
       <p><strong>Ruta:</strong> ${escapeHtml(route.nombre || routeId)}</p>
       <p><strong>Zona:</strong> ${escapeHtml(route.zona || "-")}</p>
-      <p><strong>Dia:</strong> ${escapeHtml(route.dia || "-")}</p>
+      <p><strong>Día:</strong> ${escapeHtml(route.dia || "-")}</p>
       <p><strong>Hora:</strong> ${escapeHtml(route.hora || "-")}</p>
       <div class="row">
         <button class="btn-action btn-danger" type="button" data-action="remove-favorite" data-route-id="${routeId}">

@@ -62,7 +62,7 @@ document.getElementById("profileForm").addEventListener("submit", async (event) 
   const nuevoNombre = nombreInput.value.trim();
 
   if (!nuevoNombre) {
-    showStatus("El nombre no puede estar vacio.", "error");
+    showStatus("El nombre no puede estar vacío.", "error");
     return;
   }
 
@@ -85,7 +85,7 @@ resetBtn.addEventListener("click", async () => {
 
   try {
     await sendPasswordResetEmail(auth, activeUser.email);
-    showStatus("Correo de cambio de contrasena enviado.", "success");
+    showStatus("Correo de cambio de contraseña enviado.", "success");
   } catch (error) {
     console.error("Error enviando correo de cambio:", error);
     showStatus("No se pudo enviar el correo de cambio.", "error");

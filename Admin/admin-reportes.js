@@ -82,10 +82,6 @@ tablaBody.addEventListener("click", async (event) => {
     await abrirEditar(id);
     return;
   }
-
-  if (action === "eliminar") {
-    await eliminarReporte(id);
-  }
 });
 
 async function cargarReportes() {
@@ -162,8 +158,7 @@ function renderTabla() {
       <td>${escapeHtml(reporte.estado || "Pendiente")}</td>
       <td>
         <div class="acciones">
-          <button class="btn-editar" data-action="editar" data-id="${id}">Editar</button>
-          <button class="btn-eliminar" data-action="eliminar" data-id="${id}">Eliminar</button>
+          <button class="btn-editar" data-action="editar" data-id="${id}">Cambiar estado</button>
         </div>
       </td>
     `;
@@ -204,6 +199,12 @@ async function abrirEditar(id) {
   editDescripcion.value = data.descripcion || "";
   editEstado.value = data.estado || "Pendiente";
 
+  // Solo permitimos modificar el estado.
+  editTipo.readOnly = true;
+  editUsuario.readOnly = true;
+  editUbicacion.readOnly = true;
+  editDescripcion.readOnly = true;
+
   modal.style.display = "flex";
   modal.setAttribute("aria-hidden", "false");
 }
@@ -216,10 +217,6 @@ async function guardarEdicion() {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      tipo: editTipo.value.trim(),
-      usuario: editUsuario.value.trim(),
-      ubicacion: editUbicacion.value.trim(),
-      descripcion: editDescripcion.value.trim(),
       estado: editEstado.value
     })
   }, sessionUser);
@@ -231,13 +228,6 @@ async function guardarEdicion() {
 function cerrarModal() {
   modal.style.display = "none";
   modal.setAttribute("aria-hidden", "true");
-}
-
-async function eliminarReporte(id) {
-  if (!confirm("Eliminar reporte?")) return;
-
-  await fetchWithAuth(`${DB_BASE}/${id}.json`, { method: "DELETE" }, sessionUser);
-  await cargarReportes();
 }
 
 function toSafeLower(value) {
