@@ -1,5 +1,5 @@
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { renderNavbar } from "../Componentes/navbar.js";
+﻿import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { renderNavbar } from "../Componentes/navbar.js?v=20260331-1";
 import { auth, fetchWithAuth, firebaseConfig, getUserContext, logoutUser } from "../Componentes/auth.js";
 
 const DB_URL = `${firebaseConfig.databaseURL}/rutas.json`;
@@ -239,3 +239,4 @@ function setRouteStatus(message, type = "info") {
   routeStatus.textContent = message;
   routeStatus.dataset.type = type;
 }
+
