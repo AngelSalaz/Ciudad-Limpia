@@ -1,6 +1,5 @@
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { auth, db, getUserContext } from "../Componentes/auth.js";
+import { auth, fetchWithAuth, firebaseConfig, getUserContext } from "../Componentes/auth.js";
 import { renderNavbar } from "../Componentes/navbar.js";
 
 const form = document.getElementById("contactForm");
@@ -14,6 +13,14 @@ const statusMsg = document.getElementById("status");
 
 let currentUser = null;
 let currentRole = "user";
+
+// Render inicial: evita navbar vacío si Firebase tarda o falla.
+renderNavbar({
+  active: "soporte",
+  user: null,
+  role: "user",
+  base: ".."
+});
 
 onAuthStateChanged(auth, async (user) => {
   currentUser = user || null;
@@ -53,7 +60,10 @@ form.addEventListener("submit", async (event) => {
   }
 
   try {
-    await addDoc(collection(db, "mensajes_contacto"), {
+    await fetchWithAuth(`${firebaseConfig.databaseURL}/mensajes_contacto.json`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
       tipo,
       email,
       asunto,
@@ -62,7 +72,8 @@ form.addEventListener("submit", async (event) => {
       fechaTexto: new Date().toLocaleString(),
       usuarioUid: currentUser?.uid || null,
       usuarioRol: currentRole
-    });
+      })
+    }, currentUser);
 
     showStatus("Mensaje enviado con éxito. Gracias por escribir a soporte.", "#2d5a27");
     form.reset();

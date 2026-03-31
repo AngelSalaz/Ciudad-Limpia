@@ -21,22 +21,22 @@
     <main class="content">
       <section class="admin-dropdown-wrap">
         <details class="admin-dropdown">
-          <summary>Admin Panel</summary>
-          <nav class="admin-dropdown__menu" aria-label="Menu admin">
-            <a class="active" href="admin-reportes.html">Gestion de reportes</a>
-            <a href="admin-rutas.html">Gestion de rutas</a>
-            <a href="admin-usuarios.html">Gestion de usuarios</a>
+          <summary>Panel administrativo</summary>
+          <nav class="admin-dropdown__menu" aria-label="Menú admin">
+            <a class="active" href="admin-reportes.html">Gestión de reportes</a>
+            <a href="admin-rutas.html">Gestión de rutas</a>
+            <a href="admin-usuarios.html">Gestión de usuarios</a>
           </nav>
         </details>
       </section>
 
       <div class="topbar">
-        <h1>Gestion de Reportes</h1>
+        <h1>Gestión de reportes</h1>
         <button id="btnRecargar" type="button">Recargar</button>
       </div>
 
       <div class="filtros">
-        <input type="text" id="buscador" placeholder="Buscar por tipo, usuario o ubicacion...">
+        <input type="text" id="buscador" placeholder="Buscar por tipo, usuario o ubicación...">
         <select id="filtroEstado">
           <option value="Todos">Todos los estados</option>
           <option value="Pendiente">Pendiente</option>
@@ -51,8 +51,8 @@
             <tr>
               <th>Tipo</th>
               <th>Usuario</th>
-              <th>Ubicacion</th>
-              <th>Descripcion</th>
+              <th>Ubicación</th>
+              <th>Descripción</th>
               <th>Fecha</th>
               <th>Estado</th>
               <th>Acciones</th>
@@ -68,21 +68,21 @@
 
   <div class="modal" id="modalEditar" aria-hidden="true">
     <div class="modal-content">
-      <h2>Editar Reporte</h2>
+      <h2>Cambiar estado</h2>
 
       <input type="hidden" id="editId">
 
       <label>Tipo</label>
-      <input type="text" id="editTipo">
+      <input type="text" id="editTipo" readonly>
 
       <label>Usuario</label>
-      <input type="text" id="editUsuario">
+      <input type="text" id="editUsuario" readonly>
 
-      <label>Ubicacion</label>
-      <input type="text" id="editUbicacion">
+      <label>Ubicación</label>
+      <input type="text" id="editUbicacion" readonly>
 
-      <label>Descripcion</label>
-      <textarea id="editDescripcion"></textarea>
+      <label>Descripción</label>
+      <textarea id="editDescripcion" readonly></textarea>
 
       <label>Estado</label>
       <select id="editEstado">
@@ -92,7 +92,7 @@
       </select>
 
       <div class="modal-buttons">
-        <button id="btnGuardar" type="button">Guardar</button>
+        <button id="btnGuardar" type="button">Actualizar</button>
         <button id="btnCerrar" type="button">Cancelar</button>
       </div>
     </div>

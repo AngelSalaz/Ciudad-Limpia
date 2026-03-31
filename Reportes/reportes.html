@@ -20,33 +20,33 @@
     <div class="card">
       <header>
         <h1>Reporte ciudadano</h1>
-        <p>Registra incidencias de recoleccion en tu zona.</p>
+        <p>Registra incidencias de recolección en tu zona.</p>
         <p id="userName" style="font-weight: 600;"></p>
       </header>
 
       <form id="reportForm">
         <div class="form-group">
           <label for="usuario">Nombre del reportante</label>
-          <input type="text" id="usuario" placeholder="Ej. Juan Perez" required />
+          <input type="text" id="usuario" placeholder="Ej. Juan Pérez" required />
         </div>
 
         <div class="form-group">
           <label for="tipo">Tipo de incidencia</label>
           <select id="tipo" required>
-            <option value="" disabled selected>Selecciona una opcion...</option>
-            <optgroup label="Servicio de recoleccion">
-              <option value="Camion no paso">El camion no paso en horario</option>
+            <option value="" disabled selected>Selecciona una opción...</option>
+            <optgroup label="Servicio de recolección">
+              <option value="Camion no paso">El camión no pasó en horario</option>
               <option value="Ruta incompleta">Falta de cobertura en la calle</option>
-              <option value="Derrame de residuos">Derrame de basura por el camion</option>
+              <option value="Derrame de residuos">Derrame de basura por el camión</option>
             </optgroup>
-            <optgroup label="Focos de contaminacion">
-              <option value="Tiradero clandestino">Tiradero en lote baldio</option>
-              <option value="Basura acumulada">Contenedores publicos saturados</option>
+            <optgroup label="Focos de contaminación">
+              <option value="Tiradero clandestino">Tiradero en lote baldío</option>
+              <option value="Basura acumulada">Contenedores públicos saturados</option>
               <option value="Animal muerto">Presencia de animal muerto</option>
-              <option value="Escombros">Acumulacion de escombros o muebles</option>
+              <option value="Escombros">Acumulación de escombros o muebles</option>
             </optgroup>
             <optgroup label="Mantenimiento y civismo">
-              <option value="Papeleras danadas">Cestos publicos rotos</option>
+              <option value="Papeleras danadas">Papeleras dañadas (cestos públicos rotos)</option>
               <option value="Quema de basura">Quema de residuos al aire libre</option>
               <option value="Otro">Otro caso (especificar abajo)</option>
             </optgroup>
@@ -55,16 +55,16 @@
 
         <div class="form-group" id="otroContainer" style="display:none;">
           <label for="otroDetalle">Especifica el tipo de reporte</label>
-          <input type="text" id="otroDetalle" placeholder="Escribe aqui el problema" />
+          <input type="text" id="otroDetalle" placeholder="Escribe aquí el problema" />
         </div>
 
         <div class="form-group">
-          <label for="ubicacion">Ubicacion exacta o zona</label>
-          <input type="text" id="ubicacion" placeholder="Ej. Col. Centro, Calle Juarez #123" required />
+          <label for="ubicacion">Ubicación exacta o zona</label>
+          <input type="text" id="ubicacion" placeholder="Ej. Col. Centro, Calle Juárez #123" required />
         </div>
 
         <div class="form-group">
-          <label for="descripcion">Descripcion del problema</label>
+          <label for="descripcion">Descripción del problema</label>
           <textarea id="descripcion" rows="3" placeholder="Detalla lo ocurrido..."></textarea>
         </div>
 
