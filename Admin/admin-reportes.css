@@ -206,15 +206,20 @@ body {
 .acciones {
   display: grid;
   gap: 8px;
+  justify-items: center;
 }
 
 .btn-editar {
-  width: 110px;
+  min-width: 150px;
+  width: auto;
   border: none;
   border-radius: 10px;
-  height: 38px;
+  min-height: 40px;
+  padding: 8px 14px;
   cursor: pointer;
   font-weight: 700;
+  white-space: nowrap;
+  line-height: 1.2;
 }
 
 .btn-editar {
