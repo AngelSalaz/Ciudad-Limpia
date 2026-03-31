@@ -1,5 +1,5 @@
-import { signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { renderNavbar } from "../Componentes/navbar.js";
+﻿import { signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { renderNavbar } from "../Componentes/navbar.js?v=20260331-1";
 import { auth, getLandingPathByRole, getUserContext } from "../Componentes/auth.js";
 
 const loginForm = document.getElementById("loginForm");
@@ -45,3 +45,4 @@ loginForm.addEventListener("submit", async (event) => {
     btnLogin.innerText = "Entrar";
   }
 });
+
