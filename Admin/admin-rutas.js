@@ -826,7 +826,7 @@ async function geocodeToInputs(address, latInput, lngInput, label, context = {})
       if (best) {
         latInput.value = best.lat;
         lngInput.value = best.lng;
-        setGeoStatus(`${label}: no se encontro la calle exacta; se uso ubicacion aproximada por CP/colonia.`, "warn");
+        setGeoStatus(`${label}: no se encontró la calle exacta; se usó ubicación aproximada por CP/colonia.`, "warn");
         console.warn("Geocode fallback (area) used. Attempts:", attempted);
         return;
       }

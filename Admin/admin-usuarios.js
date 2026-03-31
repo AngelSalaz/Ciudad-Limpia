@@ -132,16 +132,18 @@ function renderTabla() {
 
   usuariosFiltrados.forEach(([uid, usuario]) => {
     const tr = document.createElement("tr");
+    const rolValue = (usuario.role || "user") === "admin" ? "admin" : "user";
+    const rolLabel = rolValue === "admin" ? "Administrador" : "Usuario";
     tr.innerHTML = `
       <td>${escapeHtml(usuario.name || "Sin nombre")}</td>
       <td>${escapeHtml(usuario.email || "-")}</td>
       <td>${escapeHtml(usuario.phone || "-")}</td>
-      <td>${escapeHtml(usuario.role || "user")}</td>
+      <td>${escapeHtml(rolLabel)}</td>
       <td>
         <div class="role-control">
           <select id="role-${uid}">
-            <option ${(usuario.role || "user") === "user" ? "selected" : ""}>user</option>
-            <option ${usuario.role === "admin" ? "selected" : ""}>admin</option>
+            <option value="user" ${rolValue === "user" ? "selected" : ""}>Usuario</option>
+            <option value="admin" ${rolValue === "admin" ? "selected" : ""}>Administrador</option>
           </select>
           <button class="btn-role" data-action="rol" data-id="${uid}">Actualizar</button>
         </div>
