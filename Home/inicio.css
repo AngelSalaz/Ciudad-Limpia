@@ -102,6 +102,97 @@
   color: #2d5a27;
 }
 
+.nav__profile-menu-wrap {
+  position: relative;
+}
+
+.nav__profile-trigger {
+  border: 2px solid transparent;
+  background: transparent;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 42px;
+  padding: 4px 8px 4px 4px;
+  cursor: pointer;
+}
+
+.nav__profile-trigger:hover {
+  background: #f0f4f1;
+}
+
+.nav__profile-trigger.active,
+.nav__profile-menu-wrap.open .nav__profile-trigger {
+  border-color: #4caf50;
+  background: #e9f5ea;
+}
+
+.nav__profile-trigger .nav__profile-img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #eef3ef;
+}
+
+.nav__profile-caret {
+  font-size: 12px;
+  color: #2d5a27;
+  line-height: 1;
+}
+
+.nav__profile-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 220px;
+  background: #ffffff;
+  border: 1px solid #d8dee5;
+  border-radius: 12px;
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.18);
+  padding: 6px;
+  z-index: 1200;
+  display: grid;
+  gap: 2px;
+}
+
+.nav__profile-menu[hidden] {
+  display: none;
+}
+
+.nav__profile-menu-item {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #263238;
+  text-decoration: none;
+  text-align: left;
+  padding: 10px 12px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.nav__profile-menu-item:hover {
+  background: #f1f5f2;
+}
+
+.nav__profile-menu-item.active {
+  background: #e9f5ea;
+  color: #1f5b24;
+}
+
+.nav__profile-menu-item--danger {
+  color: #b3261e;
+}
+
+.nav__profile-menu-item--danger:hover {
+  background: #fdecea;
+}
+
 .inicio-page {
   font-family: "Poppins", sans-serif;
   background: #f4f7f6;
@@ -155,6 +246,22 @@
 
 .inicio-page .nav.nav-active .nav__profile-link {
   border-color: transparent;
+}
+
+.inicio-page .nav__profile-trigger {
+  border-color: #ffffff;
+}
+
+.inicio-page .nav__profile-caret {
+  color: #ffffff;
+}
+
+.inicio-page .nav.nav-active .nav__profile-trigger {
+  border-color: transparent;
+}
+
+.inicio-page .nav.nav-active .nav__profile-caret {
+  color: #2d5a27;
 }
 
 .inicio-page .nav__btn {
