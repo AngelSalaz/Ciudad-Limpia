@@ -1,26 +1,6 @@
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  sendEmailVerification,
-  signOut
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { renderNavbar } from "../../Componentes/navbar.js";
-import { auth, firebaseConfig, getLandingPathByRole, getUserContext } from "../../Componentes/auth.js";
-
-/**
- * Pantalla de Registro.
- *
- * Responsabilidad:
- * - Crear cuenta en Firebase Auth.
- * - Enviar verificación de correo (Firebase Auth) y cerrar sesión.
- * - Guardar temporalmente (localStorage) la información del perfil para crear el registro en RTDB
- *   únicamente cuando el correo haya sido verificado (ver Login/login.js -> ensureUserProfileExists).
- * - Enviar verificación de correo (Firebase Auth) y cerrar sesión.
- *
- * Invariantes / riesgos de cambios:
- * - Si cambias la ruta `/users/{uid}` o la estructura del perfil, el resto del sistema (roles, perfil, admin) puede fallar.
- * - Si eliminas el envío de verificación o el `signOut`, el usuario podría permanecer autenticado sin verificar.
- */
+﻿import { createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { renderNavbar } from "../../Componentes/navbar.js?v=20260331-1";
+import { auth, fetchWithAuth, firebaseConfig, getLandingPathByRole, getUserContext } from "../../Componentes/auth.js";
 
 const form = document.getElementById("registerForm");
 const statusMsg = document.getElementById("status");
@@ -57,7 +37,6 @@ form.addEventListener("submit", async (event) => {
     const uid = credential.user.uid;
 
     const userData = {
-      uid,
       name,
       phone,
       address: "",
@@ -67,26 +46,19 @@ form.addEventListener("submit", async (event) => {
       createdAt: new Date().toISOString()
     };
 
-    // Requisito: no crear el perfil en RTDB hasta que el correo sea verificado.
-    // Guardamos la información localmente para que, al primer login verificado, se cree `/users/{uid}`.
-    // Limitación: si el usuario verifica/inicia sesión desde otro dispositivo, no habrá datos para migrar
-    // y se creará un perfil mínimo (ver Login/login.js).
-    localStorage.setItem(`pending_profile_${uid}`, JSON.stringify(userData));
+    const response = await fetchWithAuth(`${firebaseConfig.databaseURL}/users/${uid}.json`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(userData)
+    }, credential.user);
 
-    // Envia correo de verificacion. El usuario debe verificar antes de iniciar sesion.
-    // Si se cambia la URL, hay que mantener disponible `verify-email.html` en Hosting.
-    const baseUrl = `https://${firebaseConfig.projectId}.web.app`;
-    await sendEmailVerification(credential.user, {
-      url: `${baseUrl}/Login/verify-email.html`,
-      handleCodeInApp: true
-    });
+    if (!response.ok) throw new Error("No se pudo guardar el perfil");
 
-    statusMsg.style.color = "#2d5a27";
-    statusMsg.textContent = "Cuenta creada. Revisa tu correo para verificar tu cuenta antes de iniciar sesión.";
+    statusMsg.style.color = "green";
+    statusMsg.textContent = "Cuenta creada correctamente";
 
     setTimeout(() => {
-      signOut(auth).catch(() => {});
-      window.location.href = "../login.html?verify=1";
+      window.location.href = getLandingPathByRole("user", "../..");
     }, 700);
   } catch (error) {
     console.error("Error en registro:", error);
@@ -98,3 +70,4 @@ form.addEventListener("submit", async (event) => {
     btnRegister.innerText = "Crear cuenta";
   }
 });
+
