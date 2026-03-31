@@ -1,6 +1,6 @@
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+﻿import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { auth, fetchWithAuth, firebaseConfig, getUserContext } from "../Componentes/auth.js";
-import { renderNavbar } from "../Componentes/navbar.js";
+import { renderNavbar } from "../Componentes/navbar.js?v=20260331-1";
 
 const form = document.getElementById("contactForm");
 const tipoSelect = document.getElementById("tipoMensaje");
@@ -96,3 +96,4 @@ function showStatus(message, color) {
   statusMsg.style.color = color;
   statusMsg.style.fontWeight = "600";
 }
+

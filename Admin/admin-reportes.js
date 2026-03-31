@@ -1,5 +1,5 @@
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { renderNavbar } from "../Componentes/navbar.js";
+﻿import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { renderNavbar } from "../Componentes/navbar.js?v=20260331-1";
 import { auth, fetchWithAuth, firebaseConfig, getUserContext, logoutUser } from "../Componentes/auth.js";
 
 const DB_BASE = `${firebaseConfig.databaseURL}/reportes`;
@@ -251,3 +251,4 @@ async function fetchJson(url) {
   }
   return data || {};
 }
+
