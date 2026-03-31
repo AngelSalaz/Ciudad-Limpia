@@ -1,5 +1,5 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { renderNavbar } from "../../Componentes/navbar.js";
+﻿import { createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { renderNavbar } from "../../Componentes/navbar.js?v=20260331-1";
 import { auth, fetchWithAuth, firebaseConfig, getLandingPathByRole, getUserContext } from "../../Componentes/auth.js";
 
 const form = document.getElementById("registerForm");
@@ -70,3 +70,4 @@ form.addEventListener("submit", async (event) => {
     btnRegister.innerText = "Crear cuenta";
   }
 });
+
